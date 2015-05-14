@@ -2,7 +2,7 @@
 title: "Project 1 Reproducible Research"
 author: "Scott Riggs"
 date: "Sunday, May 10, 2015"
-output: html_document
+output: pdf_document
 ---
 
 ## Loading and preprocessing the data
