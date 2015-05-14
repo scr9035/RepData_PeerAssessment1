@@ -2,7 +2,7 @@
 title: "Project 1 Reproducible Research"
 author: "Scott Riggs"
 date: "Sunday, May 10, 2015"
-output: pdf_document
+output: word_document
 ---
 
 ## Loading and preprocessing the data
@@ -57,8 +57,8 @@ hist(sum_steps_per_day$activity_sum_vector, breaks=25,
      )                                                                    #make a histogram of number of steps
 abline(v=median_sum,col="red", lwd=3)                                     #add a median line colored red
 abline(v=mean_sum,col="blue", lwd=3)                                      #add a mean line colored blue
-text(x=8000,y=10, label="mean", col="blue")                               #add text labeling to abline
-text(x=12500,y=10, label="median", col="red")                             #add text labeling to abline
+text(x=7500,y=10, label="mean", col="blue")                               #add text labeling to abline
+text(x=13000,y=10, label="median", col="red")                             #add text labeling to abline
 
 
 ```
@@ -104,7 +104,7 @@ colnames(mean_steps_in_a_day) <- c("time","steps")                      #label t
 max_steps <- filter(mean_steps_in_a_day, steps >206)
 
 plot(mean_steps_in_a_day$time, mean_steps_in_a_day$steps, type="l",
-     main = "Avg number of steps taken during a 24 hour period",
+     main = "Avg number of steps during a 24 hour period",
      xlab="Time of day",
      ylab="Avg number of steps",
      xlim=c(0,24)
@@ -217,8 +217,8 @@ hist(activity_sum_vector, breaks=25,
      )
 abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)                                   
-text(x=17000,y=12, label="Notice large frequency right at", col="blue", cex=1)
-text(x=17200,y=11, label="mean number of steps per day", col="blue", cex=1)
+text(x=19000,y=12, label="Notice large frequency right at", col="blue", cex=.8)
+text(x=19200,y=10, label="mean number of steps per day", col="blue", cex=.8)
      
 
 
@@ -233,8 +233,8 @@ hist(somedf$activity_sum_vector, breaks=25,
      )
 abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)
-text(x=17000,y=12, label="Now notice a smaller frequency at", col="blue", cex=1)
-text(x=17200,y=11, label="mean number of steps per day", col="blue", cex=1)
+text(x=19000,y=12, label="Now notice a smaller frequency at", col="blue", cex=.8)
+text(x=19200,y=10, label="mean number of steps per day", col="blue", cex=.8)
 
 #
       
