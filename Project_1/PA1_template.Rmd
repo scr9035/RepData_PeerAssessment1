@@ -2,7 +2,7 @@
 title: "Project 1 Reproducible Research"
 author: "Scott Riggs"
 date: "Sunday, May 10, 2015"
-output: word_document
+output: html_document
 ---
 
 ## Loading and preprocessing the data
@@ -49,7 +49,7 @@ sum_steps_per_day <- data.frame(date_lub_vector, activity_sum_vector)     #make 
 median_sum <- median(sum_steps_per_day$activity_sum_vector)               #find the median number of steps over the 61 days
 mean_sum <- mean(sum_steps_per_day$activity_sum_vector)                   #find the mean number of steps over the 61 days
 
-
+png(width=480, height=480, units="px", file='plot1.png', bg = "transparent") #save plot
 hist(sum_steps_per_day$activity_sum_vector, breaks=25,
      main = "Number of steps taken per day",
      xlab="Steps per day",
@@ -59,7 +59,7 @@ abline(v=median_sum,col="red", lwd=3)                                     #add a
 abline(v=mean_sum,col="blue", lwd=3)                                      #add a mean line colored blue
 text(x=7500,y=10, label="mean", col="blue")                               #add text labeling to abline
 text(x=13000,y=10, label="median", col="red")                             #add text labeling to abline
-
+dev.off()
 
 ```
 
@@ -103,6 +103,7 @@ colnames(mean_steps_in_a_day) <- c("time","steps")                      #label t
 
 max_steps <- filter(mean_steps_in_a_day, steps >206)
 
+png(width=480, height=480, units="px", file='plot2.png', bg = "transparent") #save plot dev.off()
 plot(mean_steps_in_a_day$time, mean_steps_in_a_day$steps, type="l",
      main = "Avg number of steps during a 24 hour period",
      xlab="Time of day",
@@ -112,7 +113,7 @@ plot(mean_steps_in_a_day$time, mean_steps_in_a_day$steps, type="l",
 #abline(v=8,col="blue", lwd=1)  
 abline(v=8.67,col="blue", lwd=1)             #add a mean line colored blue
 text(x=7.5,y=200, label="max", col="blue")
-
+dev.off()
 
 ```
 
@@ -208,7 +209,7 @@ for (i in 0:60){
 median_sum <- median(activity_sum_vector)  
 mean_sum <- mean(activity_sum_vector)  
 
-
+png(width=480, height=480, units="px", file='plot3.png', bg = "transparent") #save plot dev.off()
 hist(activity_sum_vector, breaks=25,
      main = "Number of steps taken per day",
      xlab="Steps per day",
@@ -219,12 +220,14 @@ abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)                                   
 text(x=19000,y=12, label="Notice large frequency right at", col="blue", cex=.8)
 text(x=19200,y=10, label="mean number of steps per day", col="blue", cex=.8)
-     
+dev.off()     
 
 
 
 sum_steps_per_day <- data.frame(date_lub_vector, activity_sum_vector)
 somedf <- filter(sum_steps_per_day, activity_sum_vector < 10766 | activity_sum_vector > 10767)
+
+png(width=480, height=480, units="px", file='plot4.png', bg = "transparent") #save plot dev.off()
 hist(somedf$activity_sum_vector, breaks=25,
      main = "Number of steps taken per day",
      xlab="Steps per day",
@@ -235,7 +238,7 @@ abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)
 text(x=19000,y=12, label="Now notice a smaller frequency at", col="blue", cex=.8)
 text(x=19200,y=10, label="mean number of steps per day", col="blue", cex=.8)
-
+dev.off()
 #
       
 ```
@@ -344,6 +347,8 @@ mean_sum <- mean(activity_sum_vector)
 
 sum_steps_per_day <- data.frame(date_lub_vector, activity_sum_vector)
 somedf <- filter(sum_steps_per_day, activity_sum_vector < 10766 | activity_sum_vector > 10767)
+
+png(width=480, height=480, units="px", file='plot5.png', bg = "transparent") #save plot dev.off()
 hist(somedf$activity_sum_vector, breaks=25,
      main = "Number of steps taken per day",
      xlab="Steps per day",
@@ -352,6 +357,7 @@ hist(somedf$activity_sum_vector, breaks=25,
      )
 abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)
+dev.off()
 
 #
       
@@ -445,12 +451,15 @@ sum_steps_per_day <- data.frame(date_lub_vector, activity_sum_vector)
 saturday <- filter(sum_steps_per_day, wday(sum_steps_per_day$date_lub_vector)==6)
 sunday <- filter(sum_steps_per_day, wday(sum_steps_per_day$date_lub_vector)==7)
 
+png(width=480, height=480, units="px", file='plot6.png', bg = "transparent") #save plot dev.off()
 plot(sum_steps_per_day$date_lub_vector, sum_steps_per_day$activity_sum_vector, type="l",
      ylab = "total number of steps taken",
      xlab="Date"
      )
 lines(saturday$date_lub_vector, saturday$activity_sum_vector ,col="blue", type="p")
 lines(sunday$date_lub_vector, sunday$activity_sum_vector ,col="red", type="p")
+dev.off()
+
 #****************************************************************************************************************
 
 activity$date <- ymd(activity$date)
@@ -484,6 +493,7 @@ weekdays_steps$time <- weekdays_steps$time/60
 
 
 library(gridExtra)
+png(width=480, height=480, units="px", file='plot7.png', bg = "transparent") #save plot dev.off()
 plot1 <- qplot(time, steps, data=weekends_steps, geom="line",
                xlab="Time (hours)",
                ylab="Avg weekend steps"
@@ -494,7 +504,7 @@ plot2 <- qplot(time, steps, data=weekdays_steps, geom="line",
                ylab="Avg weekday steps"
                )
 grid.arrange(plot1, plot2, nrow=2)
-
+dev.off()
 
 ```
 
