@@ -9,7 +9,8 @@ output: html_document
 
 Loading the data is rather simple. Preprocessing will be explained under each heading, usually as comments in the code itself. For each subsection of the assignment I choose different methods of preprocessing. I did this to gain insight into different ways of doing the same thing. Some used the dplyr package, others simply used no packages. To load the data set and corresponding libraries:
 
-```{r}
+
+```r
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -23,7 +24,8 @@ activity <- read.csv("activity.csv", header=TRUE, sep=",")
 The total number of steps taken per day is coded below. In this code the NA values were not removed. They will be removed later in the assignment, and a clear difference can be seen between the mean and median values once the NA's are removed. The code is pretty simple, it loops over the 2 months, one day at a time (or 288 elements (288*5 min = 1440 min. 1440min/60min/hour = 24 hours)) and sums the total number of steps. The mean value is 9354 steps, while the median is 10395 steps. It is important to remember this is before the NA's have been removed.
 
 
-```{r}
+
+```r
 activity$date_lub <- ymd(activity$date)                              #will be used to set dates and time
 
 
@@ -59,8 +61,12 @@ abline(v=median_sum,col="red", lwd=3)                                     #add a
 abline(v=mean_sum,col="blue", lwd=3)                                      #add a mean line colored blue
 text(x=7500,y=10, label="mean", col="blue")                               #add text labeling to abline
 text(x=13000,y=10, label="median", col="red")                             #add text labeling to abline
-#dev.off()
+```
 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+
+```r
+#dev.off()
 ```
 
 
@@ -70,7 +76,8 @@ text(x=13000,y=10, label="median", col="red")                             #add t
 For the average, I choose to look at the mean number of steps across a 24 hour period. This is the same thing as saying there are 288 five min periods in a day. That is, a total of 288 entries multiplied by 5 min equals 1440 min, or the total number of minutes in a day. 1440 min divided by 60 min (in an hour) is 24 hours. I prefered to look at this question in terms of time of day instead of minute increment to gain insight into how the user spent their day. It appears this person lives in a city as their highest number of steps are all peaked slightly before 9am, or the start of the work day for many people. The max value of steps (206 steps) happens at minute 520, or 8:40 am. The next isolated peak is around lunch time. The other interesting thing is that if you integrate from 8am-9:40am you can get the a rough estimate of the total number of steps the User takes to get to work. Since there is no dip (i.e. steps that go to almost zero in that 5-min time frame) we know the user does not take public transportation. If they did, we might (by looking at city transport time tables) be able to tell what city the User lives in. What we can tell; about how far the User lives from work, i.e. distance from work = total number of steps from 8am to 9:40am * average distance a person takes per step. Creepy.
 
 
-```{r}
+
+```r
 activity_min <- vector(mode="numeric", length=0)                           #make empty vectors for appending
 activity_steps_vector <- vector(mode="numeric", length=0)
 
@@ -113,8 +120,12 @@ plot(mean_steps_in_a_day$time, mean_steps_in_a_day$steps, type="l",
 #abline(v=8,col="blue", lwd=1)  
 abline(v=8.67,col="blue", lwd=1)             #add a mean line colored blue
 text(x=7.5,y=200, label="max", col="blue")
-#dev.off()
+```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
+
+```r
+#dev.off()
 ```
 
 ## Imputing missing values
@@ -123,7 +134,8 @@ Removing NA's for the value of the number of steps averaged over the two months,
 
 Now, if you are then smart and remove all days with steps value of 10766,(full days with NA, most likely a dead battery) ie make make a 'somedf <- filter(sum_steps_per_day, activity_sum_vector < 10766 | activity_sum_vector > 10767)' you will see a slightly different histogram. Now the mean is 10766.2 (not surprising) with a median of 10765.
 
-```{r}
+
+```r
 library(dplyr)                                                                 
 library(lubridate)
 library(ggplot2)
@@ -220,6 +232,11 @@ abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)                                   
 text(x=19000,y=12, label="Notice large frequency right at", col="blue", cex=.8)
 text(x=19200,y=10, label="mean number of steps per day", col="blue", cex=.8)
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
+
+```r
 #dev.off()     
 
 
@@ -238,28 +255,35 @@ abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)
 text(x=19000,y=12, label="Now notice a smaller frequency at", col="blue", cex=.8)
 text(x=19200,y=10, label="mean number of steps per day", col="blue", cex=.8)
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-2.png) 
+
+```r
 #dev.off()
 #
-      
 ```
 
 
 Finally, there is one more way to look at the data. Remember we replaced the NA's with the average number of steps taken in that 5-min interval over the 61 days. But, if you look at activity, there are entire days where the number of steps is zero. This is most likely because the user did not wear his device. I know this, because I frequently forget to put on my fitbit, especially after charging it. So for fun, I also replaced all zero value 5-min intervals with their average number of steps and plotted the histogram. Doing this is straightfoward, as we change the conditional statement from
 
-```{r, eval=FALSE}
+
+```r
 if (is.na(activity[k,1])==TRUE)
-```  
+```
 
 to have an "or" statement
 
-```{r, eval=FALSE}
+
+```r
 if (is.na(activity[k,1])==TRUE | activity[k,1]==0)
-```  
+```
 
 
 The resulting histogram is plotted below (with 10766 steps removed, i.e. full NA days)
 
-```{r}
+
+```r
 library(dplyr)                                                                 
 library(lubridate)
 library(ggplot2)
@@ -357,10 +381,14 @@ hist(somedf$activity_sum_vector, breaks=25,
      )
 abline(v=median_sum,col="red", lwd=5)
 abline(v=mean_sum,col="blue", lwd=3)
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
+
+```r
 #dev.off()
 
 #
-      
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -368,7 +396,8 @@ abline(v=mean_sum,col="blue", lwd=3)
 A lot of this code is redudant from the above code, but I tweaked a few things for fun (at the expense of making the code simpler). I'm still new to R and right now care more about understanding how R works than I am stream-lining code efficiency. Hopefully that will soon change. I also included an additional plot to help gain insight into the weekend verse weekday walking patterns. The first plot shows the total number of steps per day over the course of the two months. There are then two points (blue = saturday, red=sunday). You can see in terms of total distance travelled there is not much difference between weekends and weekdays.
 
 The second plot (the one required by the assignment) confirms the results of the first plot. A few things to notice is that while our User doesn't sleep in any later, they do sit around much longer. Also they are less active after 8pm. Finally the User walks about 15% more on the weekends than the weekdays. Just type (sum(weekends_steps$steps) / sum(weekdays_steps$steps)) into the console to see this.
-```{r}
+
+```r
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -458,6 +487,11 @@ plot(sum_steps_per_day$date_lub_vector, sum_steps_per_day$activity_sum_vector, t
      )
 lines(saturday$date_lub_vector, saturday$activity_sum_vector ,col="blue", type="p")
 lines(sunday$date_lub_vector, sunday$activity_sum_vector ,col="red", type="p")
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
+
+```r
 #dev.off()
 
 #****************************************************************************************************************
@@ -504,7 +538,11 @@ plot2 <- qplot(time, steps, data=weekdays_steps, geom="line",
                ylab="Avg weekday steps"
                )
 grid.arrange(plot1, plot2, nrow=2)
-#dev.off()
+```
 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-2.png) 
+
+```r
+#dev.off()
 ```
 
